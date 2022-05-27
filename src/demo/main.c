@@ -16,6 +16,9 @@ static void delay(uint64_t ms){
 	}
 }
 
+volatile int global = 5;
+volatile int global_bss;
+
 int main(void)
 {
 	uint8_t u8_counter = 0;
@@ -25,6 +28,18 @@ int main(void)
 
 	// Initialize seven segment
 	segment_init();
+
+	if (global != 5) {
+		printf("data section copy failed.\r\n");
+		while (1) ;
+	}
+	printf("data section copy successfully.\r\n");
+
+	if (global_bss != 0) {
+		printf("bss section clear failed.\r\n");
+		while (1) ;
+	}
+	printf("bss section clean successfully.\r\n");
 
 	// Infinite loop
 	while(1) {

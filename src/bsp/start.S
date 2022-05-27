@@ -108,54 +108,6 @@ _start:
 	! Do system low level setup. It must be a leaf function.
 	bal     _nds32_init_mem
 
-#if 1	/* Speed prefer */
-	! We do this on a word basis.
-	! Currently, the default linker script guarantee
-	! the __bss_start/_end boundary word-aligned.
-
-	! Clear bss
-	la      $r0, __bss_start
-	la      $r1, _end
-	sub     $r2, $r1, $r0       ! $r2: Size of .bss
-	beqz    $r2, clear_end
-
-	andi    $r7, $r2, 0x1f      ! $r7 = $r2 mod 32
-	movi    $r3, 0
-	movi    $r4, 0
-	movi    $r5, 0
-	movi    $r6, 0
-	movi    $r8, 0
-	movi    $r9, 0
-	movi    $r10, 0
-	beqz    $r7, clear_loop     !if $r7 == 0, bss_size%32 == 0
-	sub     $r2, $r2, $r7
-
-first_clear:
-	swi.bi  $r3, [$r0], #4      !clear each word
-	addi    $r7, $r7, -4
-	bnez    $r7, first_clear
-	li      $r1, 0xffffffe0
-	and     $r2, $r2, $r1       !check bss_size/32 == 0 or not
-	beqz    $r2, clear_end      !if bss_size/32 == 0 , needless to clear
-
-clear_loop:
-	smw.bim $r3, [$r0], $r10    !clear each 8 words
-	addi    $r2, $r2, -32
-	bgez    $r2, clear_loop
-
-clear_end:
-#else	/* Size prefer */
-	! Clear bss
-	la      $r0, _edata
-	la      $r1, _end
-	beq     $r0, $r1, 2f
-	li      $r2, #0
-1:
-	swi.bi  $r2, [$r0], #4
-	bne     $r0, $r1, 1b
-2:
-#endif
-
 	! System reset handler
 	bal     reset_handler
 
