@@ -11,6 +11,6 @@
 #include <stdint.h>
 
 void segment_init(void);
-void segment_write(int num);
+void segment_write(int channel, int num);
 
 #endif /* SEGMENT_SEGMENT_H_ */

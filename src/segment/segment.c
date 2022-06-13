@@ -26,35 +26,35 @@ static void gpio_callback(uint32_t event) {
 	switch (event) {
 		case NDS_GPIO_EVENT_PIN0:
 			// Set 7-segments value to 1
-			segment_write(1);
+			segment_write(0, 1);
 			break;
 		case NDS_GPIO_EVENT_PIN1:
 			// Set 7-segments value to 2
-			segment_write(2);
+			segment_write(0, 2);
 			break;
 		case NDS_GPIO_EVENT_PIN2:
 			// Set 7-segments value to 3
-			segment_write(3);
+			segment_write(0, 3);
 			break;
 		case NDS_GPIO_EVENT_PIN3:
 			// Set 7-segments value to 4
-			segment_write(4);
+			segment_write(0, 4);
 			break;
 		case NDS_GPIO_EVENT_PIN4:
 			// Set 7-segments value to 5
-			segment_write(5);
+			segment_write(0, 5);
 			break;
 		case NDS_GPIO_EVENT_PIN5:
 			// Set 7-segments value to 6
-			segment_write(6);
+			segment_write(0, 6);
 			break;
 		case NDS_GPIO_EVENT_PIN6:
 			// Set 7-segments value to 7
-			segment_write(7);
+			segment_write(0, 7);
 			break;
 		case NDS_GPIO_EVENT_PIN7:
 			// Set 7-segments value to 8
-			segment_write(8);
+			segment_write(0, 8);
 			break;
 		default:
 			break;
@@ -73,20 +73,12 @@ void segment_init(void) {
 	GPIO_Dri.Control(NDS_GPIO_SET_INTR_NEGATIVE_EDGE | NDS_GPIO_INTR_ENABLE, GPIO_SW_USED_MASK);
 }
 
-void segment_write(int num){
-	uint8_t seg1, seg2, segmax;
+void segment_write(int channel, int num){
+	int offset;
 
-	seg1 = num%10;
-	seg2 = num/10;
-
-	segmax = sizeof(seven_segment_value);
-	if (seg2 >= segmax) {
-		seg2 = seven_segment_value[segmax-1];
-	}
-
-	GPIO_Dri.Write(GPIO_7SEG_USED_MASK, 1);
-	GPIO_Dri.Write(seven_segment_value[seg2] << GPIO_7SEG2_OFFSET, 0);
-	GPIO_Dri.Write(seven_segment_value[seg1] << GPIO_7SEG1_OFFSET, 0);
+	offset = channel ? GPIO_7SEG2_OFFSET : GPIO_7SEG1_OFFSET;
+	GPIO_Dri.Write(0xFF << offset, 1);
+	GPIO_Dri.Write(seven_segment_value[num%10] << offset, 0);
 }
 
 
