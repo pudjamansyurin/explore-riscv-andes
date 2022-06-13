@@ -36,7 +36,7 @@ int main(void)
 		u8_arrTxBuffer[2] = AFE_CMD_STOP;
 		i2c_master_tx(u8_arrTxBuffer, sizeof(u8_arrTxBuffer));
 
-		delay(100);
+		delay(10);
 	}
 
 	return 0;

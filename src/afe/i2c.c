@@ -56,7 +56,7 @@ int32_t i2c_master_init()
 
 int32_t i2c_master_tx(const uint8_t* buf, uint32_t len)
 {
-	pDrv_I2C->MasterTransmit(I2C_SLAVE_ADDR, buf, len, false);
+	pDrv_I2C->MasterTransmit(I2C_SLAVE_ADDR << 0, buf, len, false);
 	while(pDrv_I2C->GetStatus().busy);
 
 	if(pDrv_I2C->GetDataCount() != len)
@@ -70,7 +70,7 @@ int32_t i2c_master_tx(const uint8_t* buf, uint32_t len)
 int32_t i2c_master_rx(uint8_t* buf, uint32_t len)
 {
 	// read-request to read the data from the ROM address
-	pDrv_I2C->MasterReceive(I2C_SLAVE_ADDR, buf, len, false);
+	pDrv_I2C->MasterReceive(I2C_SLAVE_ADDR << 0, buf, len, false);
 	while(pDrv_I2C->GetStatus().busy);
 
 	if(pDrv_I2C->GetDataCount() != len)
