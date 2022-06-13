@@ -4,6 +4,7 @@
  *
  */
 #include "ae210p.h"
+#include "../afe/afe.h"
 #include "../stdout/stdout.h"
 #include "../segment/segment.h"
 
@@ -18,7 +19,7 @@ static void delay(uint64_t ms){
 
 int main(void)
 {
-	uint8_t u8_counter = 0;
+	uint8_t u8_arrTxBuffer[3];
 
 	// Initialize standard output
 	stdout_init(38400);
@@ -26,14 +27,16 @@ int main(void)
 	// Initialize seven segment
 	segment_init();
 
-	// Infinite loop
-	while(1) {
-		printf("counter = %d\r\n", u8_counter);
-		segment_write(0, u8_counter % 10);
-		segment_write(1, u8_counter / 10);
+	// Initialize I2C
+	i2c_master_init();
 
-		u8_counter++;
-		delay(1);
+	while(1) {
+		u8_arrTxBuffer[0] = AFE_CMD_HEADER;
+		u8_arrTxBuffer[1] = AFE_CMD_WAKEUP;
+		u8_arrTxBuffer[2] = AFE_CMD_STOP;
+		i2c_master_tx(u8_arrTxBuffer, sizeof(u8_arrTxBuffer));
+
+		delay(100);
 	}
 
 	return 0;

@@ -26,7 +26,7 @@
 //#define	CFG_GCOV		// do code coverage support
 
 // Simulation environment select
-#define	CFG_SIMU		// do simulation on SID
+//#define	CFG_SIMU		// do simulation on SID
 
 // Build mode select
 // The BUILD_MODE can be specified to BUILD_XIP/BUILD_BURN/BUILD_LOAD only.
