@@ -1,14 +1,28 @@
 /*
  * afe.h
  *
- *  Created on: Jun 13, 2022
+ *  Created on: Apr 26, 2022
  *      Author: pujak
  */
 
-#ifndef AFE_AFE_H_
-#define AFE_AFE_H_
+#ifndef SRC_MODULES_AFE_H_
+#define SRC_MODULES_AFE_H_
 
-#include "i2c.h"
+#include "afe_i2c.h"
+
+/* Exported macros */
+#define I2C_AFE_CMD_LEN                 3
+#define I2C_RX_BUF_LEN                  (250 + sizeof(uint32_t))
+#define I2C_SLAVE_ADDR                  0x33
+
+#define TX_LEN                          21
+#define RX_LEN                          40
+#define FREQ_CNT                        4
+
+#define AFE_NOISE_DATA_LEN              (RX_LEN*FREQ_CNT)
+#define AFE_SELFTX_DATA_LEN             TX_LEN
+#define AFE_SELFRX_DATA_LEN             RX_LEN
+#define AFE_MUTUAL_DATA_LEN             (TX_LEN*RX_LEN)
 
 typedef enum {
 	AFE_CMD_WAKEUP = 0x10,
@@ -41,5 +55,16 @@ typedef enum {
 	AFE_CMD_UNKNOWN = 0xFF,
 } eAFE_CMD;
 
+/* Private types */
+typedef enum {
+	DT_NOISE, DT_MUTUAL, DT_SELF_TX, DT_SELF_RX, DT_COUNT,
+} eDataType_t;
 
-#endif /* AFE_AFE_H_ */
+/* Public function declarations */
+uint8_t afe_power(uint8_t on);
+uint8_t afe_scan(eDataType_t type);
+uint8_t afe_read(eDataType_t type);
+void afe_print(eDataType_t type);
+void afe_printall(void);
+
+#endif /* SRC_MODULES_AFE_H_ */

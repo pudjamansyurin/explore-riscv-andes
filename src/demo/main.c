@@ -19,7 +19,7 @@ static void delay(uint64_t ms){
 
 int main(void)
 {
-	uint8_t u8_arrTxBuffer[3];
+	uint8_t u8_counter = 0;
 
 	// Initialize standard output
 	stdout_init(38400);
@@ -28,14 +28,31 @@ int main(void)
 	segment_init();
 
 	// Initialize I2C
-	i2c_master_init();
+	afe_i2c_init();
 
 	while(1) {
-		u8_arrTxBuffer[0] = AFE_CMD_HEADER;
-		u8_arrTxBuffer[1] = AFE_CMD_WAKEUP;
-		u8_arrTxBuffer[2] = AFE_CMD_STOP;
-		i2c_master_tx(u8_arrTxBuffer, sizeof(u8_arrTxBuffer));
+		afe_power(1);
+		afe_scan(DT_NOISE);
+		afe_read(DT_NOISE);
+		afe_print(DT_NOISE);
 
+		afe_scan(DT_SELF_TX);
+		afe_read(DT_SELF_TX);
+		afe_print(DT_SELF_TX);
+
+		afe_scan(DT_SELF_RX);
+		afe_read(DT_SELF_RX);
+		afe_print(DT_SELF_RX);
+
+		afe_scan(DT_MUTUAL);
+		afe_read(DT_MUTUAL);
+		afe_print(DT_MUTUAL);
+
+		afe_power(0);
+
+		// Indicators
+		segment_write(0, u8_counter);
+		u8_counter++;
 		delay(10);
 	}
 
