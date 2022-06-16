@@ -6,6 +6,7 @@
  */
 
 #include "afe.h"
+#include "afe_i2c.h"
 #include <stdio.h>
 #include <string.h>
 //#include "stm32f4xx-hal-crc/crc.h"
