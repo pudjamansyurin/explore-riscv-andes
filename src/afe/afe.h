@@ -8,7 +8,7 @@
 #ifndef SRC_MODULES_AFE_H_
 #define SRC_MODULES_AFE_H_
 
-#include "afe_i2c.h"
+#include <stdint.h>
 
 /* Exported macros */
 #define I2C_AFE_CMD_LEN                 3

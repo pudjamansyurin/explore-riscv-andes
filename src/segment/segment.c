@@ -6,7 +6,6 @@
  */
 
 #include "segment.h"
-#include "Driver_GPIO.h"
 #include "gpio_ae210p.h"
 
 extern NDS_DRIVER_GPIO Driver_GPIO;
@@ -22,48 +21,9 @@ static uint8_t seven_segment_value[10] = {
 		0x3f, 0x06, 0xdb, 0x4f, 0xe6, 0x6d, 0xfc, 0x07, 0x7f, 0x67
 }; // seven-segment value 0 ~ 9
 
-static void gpio_callback(uint32_t event) {
-	switch (event) {
-		case NDS_GPIO_EVENT_PIN0:
-			// Set 7-segments value to 1
-			segment_write(0, 1);
-			break;
-		case NDS_GPIO_EVENT_PIN1:
-			// Set 7-segments value to 2
-			segment_write(0, 2);
-			break;
-		case NDS_GPIO_EVENT_PIN2:
-			// Set 7-segments value to 3
-			segment_write(0, 3);
-			break;
-		case NDS_GPIO_EVENT_PIN3:
-			// Set 7-segments value to 4
-			segment_write(0, 4);
-			break;
-		case NDS_GPIO_EVENT_PIN4:
-			// Set 7-segments value to 5
-			segment_write(0, 5);
-			break;
-		case NDS_GPIO_EVENT_PIN5:
-			// Set 7-segments value to 6
-			segment_write(0, 6);
-			break;
-		case NDS_GPIO_EVENT_PIN6:
-			// Set 7-segments value to 7
-			segment_write(0, 7);
-			break;
-		case NDS_GPIO_EVENT_PIN7:
-			// Set 7-segments value to 8
-			segment_write(0, 8);
-			break;
-		default:
-			break;
-	}
-}
-
-void segment_init(void) {
+void segment_init(NDS_GPIO_SignalEvent_t cb_event) {
 	// initialize GPIO
-	GPIO_Dri.Initialize(gpio_callback);
+	GPIO_Dri.Initialize(cb_event);
 
 	// set GPIO direction (7-segments: output, switchs: input)
 	GPIO_Dri.SetDir(GPIO_7SEG_USED_MASK, NDS_GPIO_DIR_OUTPUT);
@@ -71,6 +31,9 @@ void segment_init(void) {
 
 	// Set switchs interrupt mode to negative edge and enable it
 	GPIO_Dri.Control(NDS_GPIO_SET_INTR_NEGATIVE_EDGE | NDS_GPIO_INTR_ENABLE, GPIO_SW_USED_MASK);
+
+	segment_write(0, 0);
+	segment_write(1, 0);
 }
 
 void segment_write(int channel, int num){

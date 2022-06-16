@@ -4,56 +4,109 @@
  *
  */
 #include "ae210p.h"
-#include "../afe/afe.h"
+#include "Driver_Common.h"
 #include "../stdout/stdout.h"
 #include "../segment/segment.h"
+#include "../afe/afe_spi.h"
 
-static volatile uint8_t Delay_tmp[16];
-static void delay(uint64_t ms){
-	uint64_t i;
+//#define SPI_MASTER
+#ifdef  SPI_MASTER
+#define SPI_MODE		NDS_SPI_MODE_MASTER
+#define SPI_BITRATE		2000000
+#else
+#define SPI_MODE		NDS_SPI_MODE_SLAVE
+#define SPI_BITRATE		0
+#endif
+#define SPI_DATA_SIZE	255
 
-	for (i = 0; i < (ms * CPUFREQ)/1000; ++i) {
-		Delay_tmp[i % 16] = (i % 16);
-	}
+extern void delay(uint64_t ms);
+static volatile char gpio_pressed = 0;
+
+uint8_t u8_txBuffer[SPI_DATA_SIZE];
+uint8_t u8_rxBuffer[SPI_DATA_SIZE];
+
+void error_handler() {
+    segment_write(0, 7);
+    segment_write(1, 7);
+    while(1){};
+}
+
+void gpio_callback(uint32_t event) {
+	gpio_pressed = 1;
 }
 
 int main(void)
 {
 	uint8_t u8_counter = 0;
+	uint8_t u8_i;
 
 	// Initialize standard output
 	stdout_init(38400);
 
 	// Initialize seven segment
-	segment_init();
+	segment_init(gpio_callback);
 
-	// Initialize I2C
-	afe_i2c_init();
+	// Initialize SPI
+	if (afe_spi_init(SPI_MODE, SPI_BITRATE) != NDS_DRIVER_OK) {
+		error_handler();
+	}
+
+	// Generate data
+	for (u8_i = 0; u8_i < SPI_DATA_SIZE; u8_i++) {
+#if 0
+		if (0 == u8_i%2)
+			u8_txBuffer[u8_i] = 0xAA;
+		else
+			u8_txBuffer[u8_i] = 0xCC;
+#else
+		u8_txBuffer[u8_i] = u8_i;
+#endif
+	}
 
 	while(1) {
-		afe_power(1);
-		afe_scan(DT_NOISE);
-		afe_read(DT_NOISE);
-		afe_print(DT_NOISE);
+#if 1
+#ifdef SPI_MASTER
+		while(0 == gpio_pressed)
+		{};
+		gpio_pressed = 0;
 
-		afe_scan(DT_SELF_TX);
-		afe_read(DT_SELF_TX);
-		afe_print(DT_SELF_TX);
+		if (afe_spi_transmit(u8_txBuffer, sizeof(u8_txBuffer)) != NDS_DRIVER_OK) {
+			error_handler();
+		}
+#else
+		if (afe_spi_receive(u8_rxBuffer, sizeof(u8_rxBuffer)) != NDS_DRIVER_OK) {
+			error_handler();
+		}
+#endif
+#else
+		if (afe_spi_transfer(u8_txBuffer, u8_rxBuffer, sizeof(u8_txBuffer)) != NDS_DRIVER_OK) {
+			error_handler();
+		}
+#endif
 
-		afe_scan(DT_SELF_RX);
-		afe_read(DT_SELF_RX);
-		afe_print(DT_SELF_RX);
+#ifndef SPI_MASTER
+        uint8_t u8_ok = 1;
 
-		afe_scan(DT_MUTUAL);
-		afe_read(DT_MUTUAL);
-		afe_print(DT_MUTUAL);
+        // compare data
+        for (u8_i = 0; u8_i < SPI_DATA_SIZE; u8_i++) {
+            if (u8_rxBuffer[u8_i] != u8_i) {
+                u8_ok = 0;
+                break;
+            }
+        }
 
-		afe_power(0);
+        // indicator
+        if (u8_ok) {
+            segment_write(0, ++u8_counter);
+        }
 
-		// Indicators
-		segment_write(0, u8_counter);
-		u8_counter++;
-		delay(10);
+        // clear data
+        for (u8_i = 0; u8_i < SPI_DATA_SIZE; u8_i++) {
+        	u8_rxBuffer[u8_i] = 0;
+        }
+#else
+        segment_write(0, ++u8_counter);
+#endif
 	}
 
 	return 0;

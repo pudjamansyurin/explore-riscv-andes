@@ -11,14 +11,12 @@
 #define I2C_SLAVE_ADDR           0x33
 
 extern NDS_DRIVER_I2C Driver_I2C0;
-
 static NDS_DRIVER_I2C* pDrv_I2C = &Driver_I2C0;
 
 int32_t afe_i2c_init()
 {
 	int32_t status = NDS_DRIVER_OK;
 
-	// default slave mode
 	status = pDrv_I2C->Initialize(NULL);
 	if(status != NDS_DRIVER_OK)
 	{

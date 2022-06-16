@@ -8,9 +8,9 @@
 #ifndef SEGMENT_SEGMENT_H_
 #define SEGMENT_SEGMENT_H_
 
-#include <stdint.h>
+#include "Driver_GPIO.h"
 
-void segment_init(void);
+void segment_init(NDS_GPIO_SignalEvent_t cb_event);
 void segment_write(int channel, int num);
 
 #endif /* SEGMENT_SEGMENT_H_ */
