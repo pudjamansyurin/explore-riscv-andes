@@ -25,11 +25,17 @@ static void usart_callback(uint32_t event) {
 		case NDS_USART_EVENT_TRANSFER_COMPLETE:
 		case NDS_USART_EVENT_SEND_COMPLETE:
 		case NDS_USART_EVENT_TX_COMPLETE:
-			// success: continue task
 			usart_event_complete = 1;
 			break;
-		default:
-			while(1);
+
+	    case NDS_USART_EVENT_RX_TIMEOUT:
+	        while (1);
+	        break;
+
+	    case NDS_USART_EVENT_RX_OVERFLOW:
+	    case NDS_USART_EVENT_TX_UNDERFLOW:
+	        while (1);
+	        break;
 	}
 }
 

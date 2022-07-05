@@ -23,5 +23,6 @@ extern unsigned int timer_irq_status(unsigned int tmr);
 
 extern unsigned int sec_to_tick(unsigned int sec);
 extern unsigned int msec_to_tick(unsigned int msec);
+extern unsigned int usec_to_tick(unsigned int usec);
 
 #endif	// __TIMER_H__

@@ -108,3 +108,8 @@ unsigned int msec_to_tick(unsigned int msec)
 	return msec * (PCLKFREQ / 1000);
 }
 
+unsigned int usec_to_tick(unsigned int usec)
+{
+	return usec * (PCLKFREQ / 1000000);
+}
+
