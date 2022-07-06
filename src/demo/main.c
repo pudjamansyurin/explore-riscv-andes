@@ -33,14 +33,14 @@ void timer_irq_handler(void) {
 }
 
 void wdt_handler (uint32_t event) {
-	__asm__ ( "j _start" );
+	//__asm__ ( "j _start" );
 }
 
 /* Main program */
 int main(void)
 {
 	NDS_WDT_CAPABILITIES wdt_capabilities;
-    const int limit = 10;
+    const int limit = 17;
     int print_times = 0;
     int disable = 0;
     int factor;
@@ -58,8 +58,11 @@ int main(void)
 
 	// Welcome
 	delay(1);
+	segment_write(0, 0);
+	segment_write(1, 0);
 	printf("\r\n\r\n======================\r\n");
 	printf("Welcome, main() called\r\n");
+	delay(1);
 
 	// Initialize Watch-dog
 	wdt_capabilities = WDT_Dri.GetCapabilities();
@@ -71,11 +74,11 @@ int main(void)
 
 	if (0 == wdt_capabilities.external_timer) {
         factor = 1;
-        tim_tick = msec_to_tick(100);
+        tim_tick = usec_to_tick(499900);
         wdt_clksrc = NDS_WDT_CLKSRC_EXTERNAL;
     } else {
-        factor = 1;
-        tim_tick = 10000-1;
+        factor = 1000;
+        tim_tick = usec_to_tick(810);
         wdt_clksrc = NDS_WDT_CLKSRC_APB;
     }
 
@@ -84,7 +87,9 @@ int main(void)
 	WDT_Dri.Control(wdt_clksrc, NDS_WDT_TIME_POW_2_15);
 
     /* Start Watch-dog */
+	pfm_start();
     WDT_Dri.Enable();
+    WDT_Dri.RestartTimer();
 
 	// Infinite loop
 	while(1) {
@@ -92,17 +97,14 @@ int main(void)
             printf("Timer restart WDT (%d times), system still alive.\r\n", counter);
             print_times++;
 
-            segment_write(0, 0);
-            segment_write(0, print_times);
+            segment_write(0, print_times%10);
+            segment_write(1, print_times/10);
         }
 
         if (print_times >= limit && !disable) {
         	printf("Then, We disable Timer, so the whole system will be reset by WDT.\r\n");
             timer_irq_disable(TIMER1);
             disable = 1;
-
-            segment_write(0, 8);
-            segment_write(1, 8);
         }
 	}
 
