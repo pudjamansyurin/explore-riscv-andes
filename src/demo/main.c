@@ -4,10 +4,10 @@
  *
  */
 #include "ae210p.h"
-#include "../stdout/stdout.h"
-#include "../7segment/segment.h"
 #include "timer.h"
 #include "Driver_WDT.h"
+#include "../nds-7segment/segment.h"
+#include "../nds-stdout/uart.h"
 
 extern void delay(uint64_t ms);
 extern NDS_DRIVER_WDT Driver_WDT;
@@ -47,7 +47,7 @@ int main(void)
     int wdt_clksrc;
 
 	// Initialize standard output
-	stdout_init(38400);
+	uart_init(38400);
 
 	// Initialize seven segment
 	segment_init();

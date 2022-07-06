@@ -46,12 +46,12 @@
 							</tool>
 							<tool id="tool.nds32le-elf-mculib-v3.c.compiler.base.246568628" name="Andes C Compiler" superClass="tool.nds32le-elf-mculib-v3.c.compiler.base">
 								<option id="nds.c.compiler.option.include.paths.1773939799" name="Include paths (-I)" superClass="nds.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/bsp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/demo}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/bsp/ae210p}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/driver/v3/ae210p/config}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/driver/v3/ae210p}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/driver/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/bsp/ae210p}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/v3/ae210p/config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/v3/ae210p}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/bsp}&quot;"/>
 								</option>
 								<option id="nds.c.compiler.option.debugging.level.1874111553" name="Debug Level" superClass="nds.c.compiler.option.debugging.level" value="nds.c.debugging.level.max" valueType="enumerated"/>
 								<option id="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base.1803944724" name="Optimization Level" superClass="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base" value="nds.c.optimization.level.none" valueType="enumerated"/>
