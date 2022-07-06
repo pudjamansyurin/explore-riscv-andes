@@ -4,37 +4,42 @@
  *
  */
 #include "ae210p.h"
-#include "../stdout/stdout.h"
-#include "../segment/segment.h"
+#include "../nds-stdout/uart.h"
+#include "../nds-pfm/pfm.h"
 
-static volatile uint8_t Delay_tmp[16];
-static void delay(uint64_t ms){
-	uint64_t i;
+extern void delay(uint64_t ms);
 
-	for (i = 0; i < (ms * CPUFREQ)/1000; ++i) {
-		Delay_tmp[i % 16] = (i % 16);
+static uint32_t u32fn_factorial(uint16_t u16_num)
+{
+	uint32_t u32_result = 1;
+	uint32_t u32_i;
+
+	for (u32_i = 1; u32_i <= u16_num; u32_i++) {
+		u32_result *= u32_i;
 	}
+	return (u32_result);
 }
 
 int main(void)
 {
-	uint8_t u8_counter = 0;
+	uint16_t u16_num;
+	uint32_t u32_result;
+//	uint32_t u32_cycle;
 
-	// Initialize standard output
-	stdout_init(38400);
+	// Test function
+	u16_num = 20;
+//	pfm_start();
+	u32_result = u32fn_factorial(u16_num);
+//	u32_cycle = pfm_read();
+//	pfm_stop();
 
-	// Initialize seven segment
-	segment_init();
+	// Initialize stdout
+	uart_init(38400);
+	printf("%u! = %lu\r\n", u16_num, u32_result);
+//	printf("cycle = %lu\r\n", u32_cycle);
 
 	// Infinite loop
-	while(1) {
-		printf("counter = %d\r\n", u8_counter);
-		segment_write(0, u8_counter % 10);
-		segment_write(1, u8_counter / 10);
-
-		u8_counter++;
-		delay(1);
-	}
+	while(1) {}
 
 	return 0;
 }
