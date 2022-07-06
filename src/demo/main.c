@@ -5,7 +5,7 @@
  */
 #include "ae210p.h"
 #include "../stdout/stdout.h"
-#include "../segment/segment.h"
+#include "../7segment/segment.h"
 #include "timer.h"
 #include "Driver_WDT.h"
 
