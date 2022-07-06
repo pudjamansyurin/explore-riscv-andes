@@ -51,7 +51,7 @@ int main(void)
 	uart_init(38400);
 
 	// Initialize seven segment
-	segment_init();
+	segment_init(NULL);
 
 	// Initialize timer
 	timer_init();
@@ -91,12 +91,18 @@ int main(void)
         if ((counter/factor) > print_times) {
             printf("Timer restart WDT (%d times), system still alive.\r\n", counter);
             print_times++;
+
+            segment_write(0, 0);
+            segment_write(0, print_times);
         }
 
         if (print_times >= limit && !disable) {
         	printf("Then, We disable Timer, so the whole system will be reset by WDT.\r\n");
             timer_irq_disable(TIMER1);
             disable = 1;
+
+            segment_write(0, 8);
+            segment_write(1, 8);
         }
 	}
 
