@@ -1,0 +1,12 @@
+[submodule "src/nds-stdout"]
+	path = src/nds-stdout
+	url = git@github.com:pudjamansyurin/nds-stdout.git
+[submodule "src/nds-7segment"]
+	path = src/nds-7segment
+	url = git@github.com:pudjamansyurin/nds-7segment.git
+[submodule "src/nds-amsi"]
+	path = src/nds-amsi
+	url = git@github.com:pudjamansyurin/nds-amsi.git
+[submodule "src/nds-pfm"]
+	path = src/nds-pfm
+	url = git@github.com:pudjamansyurin/nds-pfm.git

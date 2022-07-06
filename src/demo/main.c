@@ -4,15 +4,15 @@
  *
  */
 #include "ae210p.h"
-#include "Driver_Common.h"
-#include "../stdout/stdout.h"
-#include "../segment/segment.h"
+
+#include "../nds-stdout/uart.h"
+#include "../nds-7segment/segment.h"
 #include "../afe/afe_spi.h"
 
-//#define SPI_MASTER
+#define SPI_MASTER
 #ifdef  SPI_MASTER
 #define SPI_MODE		NDS_SPI_MODE_MASTER
-#define SPI_BITRATE		1000000
+#define SPI_BITRATE		(10*MHz)
 #else
 #define SPI_MODE		NDS_SPI_MODE_SLAVE
 #define SPI_BITRATE		0
@@ -41,7 +41,7 @@ int main(void)
 	uint16_t u16_i;
 
 	// Initialize standard output
-	stdout_init(38400);
+	uart_init(38400);
 
 	// Initialize seven segment
 	segment_init(gpio_callback);

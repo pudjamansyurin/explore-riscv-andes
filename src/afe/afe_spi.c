@@ -53,7 +53,8 @@ int32_t afe_spi_init(uint32_t mode, uint32_t bitrate)
 	status = pDrv_SPI->Control(mode  |
 			 NDS_SPI_CPOL0_CPHA0 |
 			 NDS_SPI_MSB_LSB     |
-			 NDS_SPI_DATA_BITS(8), bitrate);
+			 NDS_SPI_DATA_BITS(8),
+			 bitrate);
 	if(status != NDS_DRIVER_OK)
 	{
 		return status;
