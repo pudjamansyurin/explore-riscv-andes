@@ -12,14 +12,13 @@
 #define SPI_MASTER
 #ifdef  SPI_MASTER
 #define SPI_MODE		NDS_SPI_MODE_MASTER
-#define SPI_BITRATE		(10*MHz)
+#define SPI_BITRATE		(1400*KHz)
 #else
 #define SPI_MODE		NDS_SPI_MODE_SLAVE
 #define SPI_BITRATE		0
 #endif
 #define SPI_DATA_SIZE	255
 #define SPI_DUMMY_SIZE	2
-#define SPI_DUMMY_HEX	0x55
 
 extern void delay(uint64_t ms);
 static volatile char gpio_pressed = 0;
@@ -31,8 +30,8 @@ uint8_t u8_outBuffer[SPI_DATA_SIZE+SPI_DUMMY_SIZE];
 void transform_data(uint8_t *u8_dst, const uint8_t *u8_src, uint16_t u16_len) {
 	uint16_t u16_i;
 
-	u8_dst[0] = SPI_DUMMY_HEX;
-	u8_dst[1] = SPI_DUMMY_HEX;
+	u8_dst[0] = 0x51;
+	u8_dst[1] = 0xFF;
 
 	for(u16_i=0; u16_i<u16_len; u16_i++) {
 		u8_dst[u16_i+SPI_DUMMY_SIZE] = u8_src[u16_i];
@@ -76,9 +75,9 @@ int main(void)
 		{};
 		gpio_pressed = 0;
 
-		transform_data(u8_outBuffer, u8_txBuffer, sizeof(u8_txBuffer));
+		//transform_data(u8_outBuffer, u8_txBuffer, sizeof(u8_txBuffer));
 
-		if (afe_spi_transmit(u8_outBuffer, sizeof(u8_outBuffer)) != NDS_DRIVER_OK) {
+		if (afe_spi_transmit(u8_txBuffer, sizeof(u8_txBuffer)) != NDS_DRIVER_OK) {
 			error_handler();
 		}
 #else
@@ -98,13 +97,13 @@ int main(void)
 			}
 		}
 
-        if (u8_ok) {
-            segment_write(0, u8_counter++);
-        }
-
 		for (u8_i = 0; u8_i < SPI_DATA_SIZE; u8_i++) {
 			u8_rxBuffer[u8_i] = 0;
 		}
+
+        if (u8_ok) {
+            segment_write(0, u8_counter++);
+        }
 #endif
 	}
 

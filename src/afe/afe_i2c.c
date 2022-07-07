@@ -47,7 +47,6 @@ int32_t afe_i2c_init()
 	{
 		return status;
 	}
-
 	return status;
 }
 
@@ -60,13 +59,11 @@ int32_t afe_i2c_transmit(const uint8_t* buf, uint32_t len)
 	{
 		return -1;
 	}
-
 	return 0;
 }
 
 int32_t afe_i2c_receive(uint8_t* buf, uint32_t len)
 {
-	// read-request to read the data from the ROM address
 	pDrv_I2C->MasterReceive(I2C_SLAVE_ADDR, buf, len, false);
 	while(pDrv_I2C->GetStatus().busy);
 
@@ -74,7 +71,6 @@ int32_t afe_i2c_receive(uint8_t* buf, uint32_t len)
 	{
 		return -1;
 	}
-
 	return 0;
 }
 
