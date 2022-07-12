@@ -27,7 +27,7 @@
 							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.NDS32_LIB_C_DEFAULT.1135115055" name="LIB_C_DEFAULT" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.NDS32_LIB_C_DEFAULT"/>
 							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.NDS32_LIB_CPP_DEFAULT.543852698" name="LIB_CPP_DEFAULT" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.NDS32_LIB_CPP_DEFAULT"/>
 							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_TARGET.2086331066" name="RSE_TARGET" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_TARGET" value="rse://LOCALHOST/~target/ADP-AE210P-4GB-D1088-FPU" valueType="string"/>
-							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT.500106036" name="RSE_CONNECT" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT" value="ICE" valueType="string"/>
+							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT.500106036" name="RSE_CONNECT" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT" value="SID" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="com.andestech.ide.cdt.managedbuilder.core.CROSS_GNU_ELF" id="target.nds.platform.base.373411625" name="Debug Platform" osList="all" superClass="target.nds.platform.base"/>
 							<builder buildPath="${workspace_loc:/demo-standby}/Debug" id="target.nds.builder.base.1028580825" keepEnvironmentInBuildfile="false" name="Andes Make Builder" superClass="target.nds.builder.base">
 								<outputEntries>
