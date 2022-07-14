@@ -12,7 +12,7 @@
 #define SPI_MASTER
 #ifdef  SPI_MASTER
 #define SPI_MODE		NDS_SPI_MODE_MASTER
-#define SPI_BITRATE		(1400*KHz)
+#define SPI_BITRATE		(1250*KHz)
 #else
 #define SPI_MODE		NDS_SPI_MODE_SLAVE
 #define SPI_BITRATE		0
@@ -30,8 +30,8 @@ uint8_t u8_outBuffer[SPI_DATA_SIZE+SPI_DUMMY_SIZE];
 void transform_data(uint8_t *u8_dst, const uint8_t *u8_src, uint16_t u16_len) {
 	uint16_t u16_i;
 
-	u8_dst[0] = 0x51;
-	u8_dst[1] = 0xFF;
+	u8_dst[0] = 0x55;
+	u8_dst[1] = 0x55;
 
 	for(u16_i=0; u16_i<u16_len; u16_i++) {
 		u8_dst[u16_i+SPI_DUMMY_SIZE] = u8_src[u16_i];
@@ -75,9 +75,9 @@ int main(void)
 		{};
 		gpio_pressed = 0;
 
-		//transform_data(u8_outBuffer, u8_txBuffer, sizeof(u8_txBuffer));
+		transform_data(u8_outBuffer, u8_txBuffer, sizeof(u8_txBuffer));
 
-		if (afe_spi_transmit(u8_txBuffer, sizeof(u8_txBuffer)) != NDS_DRIVER_OK) {
+		if (afe_spi_transmit(u8_outBuffer, sizeof(u8_outBuffer)) != NDS_DRIVER_OK) {
 			error_handler();
 		}
 #else
