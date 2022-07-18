@@ -7,36 +7,22 @@
 
 #include "../nds-stdout/uart.h"
 #include "../nds-7segment/segment.h"
-#include "../afe/afe_spi.h"
 
-#define SPI_MASTER
-#ifdef  SPI_MASTER
-#define SPI_MODE		NDS_SPI_MODE_MASTER
-#define SPI_BITRATE		(1250*KHz)
+#include "../afe/afe.h"
+#ifdef USE_TRANSPORT_SPI
+#include "../afe/afe_spi.h"
+const sAfeTransport_t *Transport = &SPI_Transport;
 #else
-#define SPI_MODE		NDS_SPI_MODE_SLAVE
-#define SPI_BITRATE		0
+#include "../afe/afe_i2c.h"
+const sAfeTransport_t *Transport = &I2C_Transport;
 #endif
-#define SPI_DATA_SIZE	255
-#define SPI_DUMMY_SIZE	2
+
+#define DATA_SIZE	255
 
 extern void delay(uint64_t ms);
 static volatile char gpio_pressed = 0;
 
-uint8_t u8_txBuffer[SPI_DATA_SIZE];
-uint8_t u8_rxBuffer[SPI_DATA_SIZE];
-uint8_t u8_outBuffer[SPI_DATA_SIZE+SPI_DUMMY_SIZE];
-
-void transform_data(uint8_t *u8_dst, const uint8_t *u8_src, uint16_t u16_len) {
-	uint16_t u16_i;
-
-	u8_dst[0] = 0x55;
-	u8_dst[1] = 0x55;
-
-	for(u16_i=0; u16_i<u16_len; u16_i++) {
-		u8_dst[u16_i+SPI_DUMMY_SIZE] = u8_src[u16_i];
-	}
-}
+static uint8_t u8_buffer[DATA_SIZE];
 
 void error_handler() {
     segment_write(0, 7);
@@ -60,45 +46,44 @@ int main(void)
 	segment_init(gpio_callback);
 
 	// Initialize SPI
-	if (afe_spi_init(SPI_MODE, SPI_BITRATE) != NDS_DRIVER_OK) {
+	if (Transport->init() != NDS_DRIVER_OK) {
 		error_handler();
 	}
 
+#ifdef USE_NODE_MASTER
 	// Generate data
-	for (u8_i = 0; u8_i < SPI_DATA_SIZE; u8_i++) {
-		u8_txBuffer[u8_i] = u8_i;
+	for (u8_i = 0; u8_i < DATA_SIZE; u8_i++) {
+		u8_buffer[u8_i] = u8_i;
 	}
+#endif
 
 	while(1) {
-#ifdef SPI_MASTER
-		while(0 == gpio_pressed)
-		{};
+#ifdef USE_NODE_MASTER
+		while(0 == gpio_pressed) {};
 		gpio_pressed = 0;
 
-		transform_data(u8_outBuffer, u8_txBuffer, sizeof(u8_txBuffer));
-
-		if (afe_spi_transmit(u8_outBuffer, sizeof(u8_outBuffer)) != NDS_DRIVER_OK) {
+		if (Transport->transmit(u8_buffer, sizeof(u8_buffer)) != NDS_DRIVER_OK) {
 			error_handler();
 		}
 #else
-		if (afe_spi_receive(u8_rxBuffer, sizeof(u8_rxBuffer)) != NDS_DRIVER_OK) {
+		if (Transport->receive(u8_buffer, sizeof(u8_buffer)) != NDS_DRIVER_OK) {
 			error_handler();
 		}
 #endif
 
-#ifdef SPI_MASTER
+#ifdef USE_NODE_MASTER
         segment_write(0, u8_counter++);
 #else
         uint8_t u8_ok = 1;
 
-		for (u8_i = 0; u8_i < SPI_DATA_SIZE; u8_i++) {
-			if (u8_rxBuffer[u8_i] != u8_i) {
+		for (u8_i = 0; u8_i < DATA_SIZE; u8_i++) {
+			if (u8_buffer[u8_i] != u8_i) {
 				u8_ok = 0;
 			}
 		}
 
-		for (u8_i = 0; u8_i < SPI_DATA_SIZE; u8_i++) {
-			u8_rxBuffer[u8_i] = 0;
+		for (u8_i = 0; u8_i < DATA_SIZE; u8_i++) {
+			u8_buffer[u8_i] = 0;
 		}
 
         if (u8_ok) {

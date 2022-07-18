@@ -27,7 +27,7 @@
 							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.NDS32_LIB_C_DEFAULT.1029094591" name="LIB_C_DEFAULT" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.NDS32_LIB_C_DEFAULT"/>
 							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.NDS32_LIB_CPP_DEFAULT.1376586064" name="LIB_CPP_DEFAULT" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.NDS32_LIB_CPP_DEFAULT"/>
 							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_TARGET.2118392349" name="RSE_TARGET" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_TARGET"/>
-							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT.26417597" name="RSE_CONNECT" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT" value="SID" valueType="string"/>
+							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT.26417597" name="RSE_CONNECT" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT" value="ICE" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="com.andestech.ide.cdt.managedbuilder.core.CROSS_GNU_ELF" id="target.nds.platform.base.663546774" name="Debug Platform" osList="all" superClass="target.nds.platform.base"/>
 							<builder autoBuildTarget="all" buildPath="${workspace_loc:/demo-standby}/Debug" cleanBuildTarget="clean" enableAutoBuild="false" enableCleanBuild="true" enabledIncrementalBuild="true" id="target.nds.builder.base.1144762823" incrementalBuildTarget="all" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Andes Make Builder" parallelBuildOn="false" superClass="target.nds.builder.base"/>
 							<tool id="tool.nds32le-elf-mculib-v3.archiver.base.1592246159" name="Andes Archiver" superClass="tool.nds32le-elf-mculib-v3.archiver.base"/>
@@ -53,7 +53,7 @@
 								<inputType id="tool.nds.c.compiler.input.1521582583" superClass="tool.nds.c.compiler.input"/>
 							</tool>
 							<tool id="tool.nds32le-elf-mculib-v3.c.linker.base.1477894811" name="Andes C Linker" superClass="tool.nds32le-elf-mculib-v3.c.linker.base">
-								<option defaultValue="-O0" id="nds.c.link.option.optimization.level.2097445679" name="Optimization Level" superClass="nds.c.link.option.optimization.level" valueType="string"/>
+								<option defaultValue="-O0" id="nds.c.link.option.optimization.level.2097445679" name="Optimization Level" superClass="nds.c.link.option.optimization.level" value="-O0" valueType="string"/>
 								<option defaultValue="true" id="nds32le-elf-mculib-v3.c.link.option.noshared.base.1011884207" name="No shared libraries (-static)" superClass="nds32le-elf-mculib-v3.c.link.option.noshared.base" valueType="boolean"/>
 								<option id="nds.c.link.option.nostart.1833432076" name="Do not use standard start files (-nostartfiles)" superClass="nds.c.link.option.nostart" value="true" valueType="boolean"/>
 								<option id="nds.c.linker.option.cmodel.497305625" name="Code Model" superClass="nds.c.linker.option.cmodel" value="-mcmodel=medium" valueType="string"/>

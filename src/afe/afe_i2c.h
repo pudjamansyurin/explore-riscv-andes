@@ -8,10 +8,8 @@
 #ifndef AFE_AFE_I2C_H_
 #define AFE_AFE_I2C_H_
 
-#include <stdint.h>
+#include "afe.h"
 
-int32_t afe_i2c_init();
-int32_t afe_i2c_transmit(const uint8_t* buf, uint32_t len);
-int32_t afe_i2c_receive(uint8_t* buf, uint32_t len);
+extern const sAfeTransport_t I2C_Transport;
 
 #endif /* AFE_AFE_I2C_H_ */

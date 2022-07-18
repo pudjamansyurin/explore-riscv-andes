@@ -4,6 +4,7 @@
  *  Created on: Jun 13, 2022
  *      Author: pujak
  */
+
 #include "afe_i2c.h"
 #include "Driver_I2C.h"
 
@@ -73,5 +74,11 @@ int32_t afe_i2c_receive(uint8_t* buf, uint32_t len)
 	}
 	return 0;
 }
+
+const sAfeTransport_t I2C_Transport =  {
+		.init = afe_i2c_init,
+		.transmit = afe_i2c_transmit,
+		.receive = afe_i2c_receive
+};
 
 
