@@ -11,7 +11,8 @@
 #include <stdint.h>
 
 #define USE_NODE_MASTER
-#define USE_TRANSPORT_SPI
+#define USE_DIR_TRANSMIT
+//#define USE_TRANSPORT_SPI
 
 typedef struct {
 	int32_t (*init)(void);

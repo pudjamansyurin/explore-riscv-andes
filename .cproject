@@ -49,7 +49,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/bsp}&quot;"/>
 								</option>
 								<option id="nds.c.compiler.option.debugging.level.2052796137" name="Debug Level" superClass="nds.c.compiler.option.debugging.level" value="nds.c.debugging.level.max" valueType="enumerated"/>
-								<option id="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base.1001536653" name="Optimization Level" superClass="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base" value="nds.c.optimization.level.none" valueType="enumerated"/>
+								<option id="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base.1001536653" name="Optimization Level" superClass="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base" value="nds.c.optimization.level.space" valueType="enumerated"/>
 								<inputType id="tool.nds.c.compiler.input.1521582583" superClass="tool.nds.c.compiler.input"/>
 							</tool>
 							<tool id="tool.nds32le-elf-mculib-v3.c.linker.base.1477894811" name="Andes C Linker" superClass="tool.nds32le-elf-mculib-v3.c.linker.base">
@@ -175,10 +175,10 @@
 	</storageModule>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/demo-standby"/>
+			<resource resourceType="PROJECT" workspacePath="/vt-andes"/>
 		</configuration>
 		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/demo-standby"/>
+			<resource resourceType="PROJECT" workspacePath="/vt-andes"/>
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>

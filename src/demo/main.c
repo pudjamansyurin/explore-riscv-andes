@@ -50,7 +50,7 @@ int main(void)
 		error_handler();
 	}
 
-#ifdef USE_NODE_MASTER
+#ifdef USE_DIR_TRANSMIT
 	// Generate data
 	for (u8_i = 0; u8_i < DATA_SIZE; u8_i++) {
 		u8_buffer[u8_i] = u8_i;
@@ -59,9 +59,11 @@ int main(void)
 
 	while(1) {
 #ifdef USE_NODE_MASTER
-		while(0 == gpio_pressed) {};
+		while(0 == gpio_pressed) {} ;
 		gpio_pressed = 0;
+#endif
 
+#ifdef USE_DIR_TRANSMIT
 		if (Transport->transmit(u8_buffer, sizeof(u8_buffer)) != NDS_DRIVER_OK) {
 			error_handler();
 		}
@@ -71,7 +73,7 @@ int main(void)
 		}
 #endif
 
-#ifdef USE_NODE_MASTER
+#ifdef USE_DIR_TRANSMIT
         segment_write(0, u8_counter++);
 #else
         uint8_t u8_ok = 1;
@@ -89,6 +91,10 @@ int main(void)
         if (u8_ok) {
             segment_write(0, u8_counter++);
         }
+#endif
+
+#ifdef USE_NODE_MASTER
+        delay(100);
 #endif
 	}
 
