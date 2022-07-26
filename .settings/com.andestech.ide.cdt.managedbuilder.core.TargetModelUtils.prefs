@@ -1,6 +1,6 @@
 autoBuildEnable=false
-connectType=ICE
-connectTypeOptionData=2
+connectType=SID
+connectTypeOptionData=1
 eclipse.preferences.version=1
 iceman.misc.args=
 iceman.misc.args.map={2\=}
