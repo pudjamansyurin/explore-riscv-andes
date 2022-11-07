@@ -11,8 +11,8 @@
 #include "nds-serial/serial.h"
 
 /* Public function declarations */
-void terminal_init(NDS_DRIVER_USART *p_usart, uint32_t u32_baud,
+void term_init(NDS_DRIVER_USART *p_usart, uint32_t u32_baud,
 		stdin_reader_t reader, stdout_locker_t locker);
-void terminal_in(unsigned char *str, uint16_t size);
+void term_in(unsigned char *str, uint16_t size);
 
 #endif /* TERMINAL_H_ */

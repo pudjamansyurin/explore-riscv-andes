@@ -37,7 +37,7 @@ static void guicmd_init(void)
 }
 
 /* Public function definitions */
-void terminal_init(NDS_DRIVER_USART *p_usart, uint32_t u32_baud,
+void term_init(NDS_DRIVER_USART *p_usart, uint32_t u32_baud,
 		stdin_reader_t reader, stdout_locker_t locker)
 {
 	/* setup serial */
@@ -51,7 +51,7 @@ void terminal_init(NDS_DRIVER_USART *p_usart, uint32_t u32_baud,
 	guicmd_init();
 }
 
-void terminal_in(unsigned char *str, uint16_t size)
+void term_in(unsigned char *str, uint16_t size)
 {
 	while (*str && size--)
 	{
