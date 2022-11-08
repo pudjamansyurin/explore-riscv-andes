@@ -5,10 +5,10 @@
  *      Author:
  */
 
-#ifndef DEMO_MAIN_H_
-#define DEMO_MAIN_H_
+#ifndef MAIN_H_
+#define MAIN_H_
 
 #define TX_LEN	21
 #define RX_LEN	40
 
-#endif /* DEMO_MAIN_H_ */
+#endif /* MAIN_H_ */

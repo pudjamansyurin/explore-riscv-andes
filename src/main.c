@@ -3,12 +3,11 @@
  * All rights reserved.
  *
  */
-#include "ae210p.h"
+#include "main.h"
+#include "uart/terminal.h"
+#include "nds-adp-gpio/adp_gpio.h"
 #include <string.h>
 #include <stdio.h>
-
-#include "usart_ae210p.h"
-#include "uart/terminal.h"
 
 /* Private macros */
 #define BUFFER_SZ 	512
@@ -31,6 +30,10 @@ static void usart_reader(void *p_buffer, uint16_t u16_cnt)
 int main(void)
 {
 	extern NDS_DRIVER_USART Driver_USART1;
+
+	// Initialize 7-segment
+	adp_7segInit();
+	adp_7segWrite(-1, 77);
 
 	// Initialize terminal
 	term_init(&Driver_USART1, 625000, usart_reader, NULL);

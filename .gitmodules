@@ -10,3 +10,6 @@
 [submodule "src/uart/nds-serial"]
 	path = src/uart/nds-serial
 	url = git@github.com:pudjamansyurin/nds-serial.git
+[submodule "src/nds-adp-gpio"]
+	path = src/nds-adp-gpio
+	url = https://github.com/pudjamansyurin/nds-adp-gpio.git
