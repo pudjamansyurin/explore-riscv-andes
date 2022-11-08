@@ -10,8 +10,11 @@
 #include "usart_ae210p.h"
 #include "uart/terminal.h"
 
+/* Private macros */
+#define BUFFER_SZ 	512
+
 /* Private variables */
-static char shell_buffer[512];
+static char term_buffer[BUFFER_SZ];
 static volatile uint16_t u16_rxCnt;
 
 /* Private function definitions */
@@ -19,16 +22,9 @@ static void usart_reader(void *p_buffer, uint16_t u16_cnt)
 {
 	/* replace with flag or queue message */
 	/* as this is still in interrupt context call */
-	if (sizeof(shell_buffer) < u16_cnt)
-	{
-		u16_rxCnt = sizeof(shell_buffer);
-	}
-	else
-	{
-		u16_rxCnt = u16_cnt;
-	}
+	u16_rxCnt = (BUFFER_SZ < u16_cnt) ? BUFFER_SZ : u16_cnt;
 
-	memcpy(shell_buffer, p_buffer, u16_rxCnt);
+	memcpy(term_buffer, p_buffer, u16_rxCnt);
 }
 
 /* Public function definitions */
@@ -45,10 +41,10 @@ int main(void)
 		if (0 < u16_rxCnt)
 		{
 			/* handle received data (blocking) */
-			term_in((void*) shell_buffer, u16_rxCnt);
+			term_in((void*) term_buffer, u16_rxCnt);
 
 			/* clear data */
-			memset(shell_buffer, 0x0, u16_rxCnt);
+			memset(term_buffer, 0x0, u16_rxCnt);
 			u16_rxCnt = 0;
 		}
 	}
