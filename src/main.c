@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 #include "usart_ae210p.h"
-#include "../uart/terminal.h"
+#include "uart/terminal.h"
 
 /* Private variables */
 static char shell_buffer[512];

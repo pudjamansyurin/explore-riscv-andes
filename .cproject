@@ -29,7 +29,7 @@
 							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_TARGET.2086331066" name="RSE_TARGET" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_TARGET" value="rse://LOCALHOST/~target/ADP-AE210P-4GB-D1088-FPU" valueType="string"/>
 							<option id="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT.500106036" name="RSE_CONNECT" superClass="nds32le-elf-mculib-v3.managedbuild.option.toolchain.RSE_CONNECT" value="ICE" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="com.andestech.ide.cdt.managedbuilder.core.CROSS_GNU_ELF" id="target.nds.platform.base.373411625" name="Debug Platform" osList="all" superClass="target.nds.platform.base"/>
-							<builder buildPath="${workspace_loc:/demo-standby}/Debug" id="target.nds.builder.base.1028580825" keepEnvironmentInBuildfile="false" name="Andes Make Builder" superClass="target.nds.builder.base">
+							<builder buildPath="${workspace_loc:/demo-standby}/Debug" id="target.nds.builder.base.1028580825" keepEnvironmentInBuildfile="false" name="Andes Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="target.nds.builder.base">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug"/>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release"/>
@@ -46,12 +46,12 @@
 							</tool>
 							<tool id="tool.nds32le-elf-mculib-v3.c.compiler.base.246568628" name="Andes C Compiler" superClass="tool.nds32le-elf-mculib-v3.c.compiler.base">
 								<option id="nds.c.compiler.option.include.paths.1773939799" name="Include paths (-I)" superClass="nds.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/demo}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/bsp/ae210p}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/bsp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/v3/ae210p/config}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/v3/ae210p}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/bsp/ae210p}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/v3/ae210p}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/v3/ae210p/config}&quot;"/>
 								</option>
 								<option id="nds.c.compiler.option.debugging.level.1874111553" name="Debug Level" superClass="nds.c.compiler.option.debugging.level" value="nds.c.debugging.level.max" valueType="enumerated"/>
 								<option id="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base.1803944724" name="Optimization Level" superClass="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base" value="nds.c.optimization.level.none" valueType="enumerated"/>
@@ -128,9 +128,12 @@
 								<option id="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base.1374092929" name="Optimization Level" superClass="nds32le-elf-mculib-v3.c.compiler.option.optimization.level.base" value="nds.c.optimization.level.space" valueType="enumerated"/>
 								<option id="nds.c.compiler.option.debugging.level.112826358" name="Debug Level" superClass="nds.c.compiler.option.debugging.level" value="nds.c.debugging.level.none" valueType="enumerated"/>
 								<option id="nds.c.compiler.option.include.paths.920928700" name="Include paths (-I)" superClass="nds.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/bsp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/bsp/ae210p}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/demo}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/bsp/ae210p}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/v3/ae210p}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/nds-amsi/driver/v3/ae210p/config}&quot;"/>
 								</option>
 								<inputType id="tool.nds.c.compiler.input.1523287919" superClass="tool.nds.c.compiler.input"/>
 							</tool>
@@ -212,4 +215,5 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.andestech.ide.cdt.managedbuilder.core.ndsManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>
