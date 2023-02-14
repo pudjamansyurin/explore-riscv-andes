@@ -12,7 +12,4 @@
 	url = git@github.com:pudjamansyurin/nds-serial.git
 [submodule "src/nds-adp-gpio"]
 	path = src/nds-adp-gpio
-	url = https://github.com/pudjamansyurin/nds-adp-gpio.git
-[submodule "src/nds-lmdma"]
-	path = src/nds-lmdma
-	url = https://github.com/pudjamansyurin/nds-lmdma.git
+	url = git@github.com:pudjamansyurin/nds-adp-gpio.git

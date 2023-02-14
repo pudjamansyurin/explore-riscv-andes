@@ -24,13 +24,13 @@ static void guicmd_init(void)
 	/* initialize GUI commands */
 	for(u8_i=0; u8_i<GUI_CMD_CNT; u8_i++)
 	{
-		const guicmd_t* p_gui = vGuiCmd_get(u8_i);
+		const gui_cmd_t* p_gui = vGuiCmd_get(u8_i);
 		tinysh_cmd_t* p_tsh = &(gui_cmds[u8_i]);
 
 		p_tsh->name = p_gui->name;
 		p_tsh->help = p_gui->help;
 		p_tsh->usage = p_gui->usage;
-		p_tsh->function = p_gui->function;
+		p_tsh->function = p_gui->func;
 
 		tinysh_add_command(p_tsh);
 	}
