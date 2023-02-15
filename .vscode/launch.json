@@ -1,0 +1,58 @@
+{
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Debug/Touch.elf",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/opt/andes-sdk/nds32le-elf-mculib-v3/bin/nds32le-elf-gdb",
+            "miDebuggerServerAddress": "localhost:1111",
+            "logging": {
+                "trace": false,
+                "traceResponse": false,
+                "engineLogging": false,
+                "programOutput": true,
+                "moduleLoad": true,
+                "exceptions": true
+            },
+            // "setupCommands": [
+            //     {
+            //         "text": "target remote :1111",
+            //         "description": "connect to remote target",
+            //         "ignoreFailures": false
+            //     },
+            //     {
+            //         "text": "monitor reset halt",
+            //         "description": "halt",
+            //         "ignoreFailures": false
+            //     },
+            //     {
+            //         "text": "file ${workspaceFolder}/Debug/Touch.elf",
+            //         "description": "load symbols",
+            //         "ignoreFailures": false
+            //     },
+            //     {
+            //         "text": "load",
+            //         "description": "load to remote MCU",
+            //         "ignoreFailures": false
+            //     },
+            //     {
+            //         "text": "tbreak main",
+            //         "description": "halt",
+            //         "ignoreFailures": false
+            //     },
+            //     {
+            //         "text": "monitor reset init",
+            //         "description": "halt",
+            //         "ignoreFailures": false
+            //     },
+            // ]
+        }
+    ]
+}

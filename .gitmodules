@@ -1,15 +1,9 @@
 [submodule "src/nds-amsi"]
 	path = src/nds-amsi
 	url = git@github.com:pudjamansyurin/nds-amsi.git
-[submodule "src/uart/tinysh"]
-	path = src/uart/tinysh
-	url = git@github.com:pudjamansyurin/tinysh-fork.git
-[submodule "src/uart/gui-driver"]
-	path = src/uart/gui-driver
-	url = git@github.com:Viewtrix-Technology-Indonesia/vt-afe-gui-driver.git
-[submodule "src/uart/nds-serial"]
-	path = src/uart/nds-serial
-	url = git@github.com:pudjamansyurin/nds-serial.git
 [submodule "src/nds-adp-gpio"]
 	path = src/nds-adp-gpio
 	url = git@github.com:pudjamansyurin/nds-adp-gpio.git
+[submodule "src/nds-terminal"]
+	path = src/nds-terminal
+	url = git@github.com:pudjamansyurin/nds-terminal.git

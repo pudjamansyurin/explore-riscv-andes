@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "ae210p.h": "c",
+        "driver_usart.h": "c",
+        "main.h": "c",
+        "serial.h": "c",
+        "string.h": "c",
+        "adp_gpio.h": "c",
+        "terminal.h": "c"
+    }
+}

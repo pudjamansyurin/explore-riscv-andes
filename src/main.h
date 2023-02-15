@@ -8,6 +8,9 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
+#include "ae210p.h"
+#include <stdint.h>
+
 #define TX_LEN	21
 #define RX_LEN	40
 

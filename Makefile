@@ -26,34 +26,6 @@ OBJCOPY := $(CROSS_COMPILE)objcopy
 AR		:= $(CROSS_COMPILE)ar
 AS		:= $(CROSS_COMPILE)as
 
-### Verbosity control. Use 'make V=1' to get verbose builds.
-ifeq ($(V),1)
-	TRACE_CC  =
-	TRACE_C++ =
-	TRACE_LD  =
-	TRACE_AR  =
-	TRACE_AS  =
-	Q=
-else
-	TRACE_CC  = @echo "  CC       " $<
-	TRACE_C++ = @echo "  C++      " $<
-	TRACE_LD  = @echo "  LD       " $@
-	TRACE_AR  = @echo "  AR       " $@
-	TRACE_AS  = @echo "  AS       " $<
-	Q=@
-endif
-
-# Debug or Release
-ifeq ($(DEBUG),1)
-	OPTIM   	:= -O0 -g3
-	BUILD_DIR	= ./Debug
-else
-	OPTIM   	:= -Os -g3
-	BUILD_DIR	= ./Release
-endif
-
-$(shell mkdir -p $(BUILD_DIR)) 
-
 # Check parameters
 ifneq ($(filter $(PLAT), AG101P AE210P AE100 AE3XX),$(PLAT))
 	$(error Unknown PLAT "$(PLAT)" is not supported!)
@@ -70,11 +42,19 @@ endif
 # Platform directory name
 PLATFORM = $(shell echo $(PLAT) | tr A-Z a-z)
 
-# Define the directories
-CORE_DIR		= src
+# Debug or Release
+ifeq ($(DEBUG),1)
+	OPTIM   	:= -O0 -g3
+	BUILD_DIR	= ./Debug
+else
+	OPTIM   	:= -Os -g3
+	BUILD_DIR	= ./Release
+endif
 
-# The linker script
-LDSCRIPT = $(CORE_DIR)/nds-amsi/bsp/$(PLATFORM)/nds32-$(PLATFORM).ld
+$(shell mkdir -p $(BUILD_DIR)) 
+
+# Define the directories
+CORE_DIR = src
 
 # The header paths
 INCS = \
@@ -87,10 +67,9 @@ INCS = \
 	-I$(CORE_DIR)/nds-amsi/driver/include \
 	-I$(CORE_DIR)/nds-amsi/driver/v3/$(PLATFORM) \
 	-I$(CORE_DIR)/nds-amsi/driver/v3/$(PLATFORM)/config \
-	-I$(CORE_DIR)/uart \
-	-I$(CORE_DIR)/uart/tinysh \
-	-I$(CORE_DIR)/uart/nds-serial \
-	-I$(CORE_DIR)/uart/gui-driver \
+	-I$(CORE_DIR)/nds-terminal \
+	-I$(CORE_DIR)/nds-terminal/tinysh \
+	-I$(CORE_DIR)/nds-terminal/nds-serial \
 
 # The source files
 SRCS = \
@@ -109,19 +88,39 @@ SRCS = \
 	$(CORE_DIR)/nds-amsi/driver/v3/$(PLATFORM)/usart_$(PLATFORM).c \
 	$(CORE_DIR)/nds-amsi/driver/v3/$(PLATFORM)/wdt_$(PLATFORM).c \
 	$(CORE_DIR)/nds-adp-gpio/adp_gpio.c \
-	$(CORE_DIR)/uart/terminal.c \
-	$(CORE_DIR)/uart/tinysh/tinysh.c \
-	$(CORE_DIR)/uart/nds-serial/serial.c \
-	$(CORE_DIR)/uart/nds-serial/retarget.c \
-	$(CORE_DIR)/uart/gui-driver/model.c \
-	$(CORE_DIR)/uart/gui-driver/gui_cmd.c \
-	$(CORE_DIR)/uart/gui-driver/gui_evt.c \
-	$(CORE_DIR)/uart/gui-driver/cmd_validator.c \
+	$(CORE_DIR)/nds-terminal/terminal.c \
+	$(CORE_DIR)/nds-terminal/tinysh/tinysh.c \
+	$(CORE_DIR)/nds-terminal/nds-serial/serial.c \
+	$(CORE_DIR)/nds-terminal/nds-serial/retarget.c \
 	$(CORE_DIR)/main.c \
 
+# The linker script
+LDSCRIPT = $(CORE_DIR)/nds-amsi/bsp/$(PLATFORM)/nds32-$(PLATFORM).ld
+
 # Define all object files.
-OBJX = $(patsubst %.S,%.o,$(patsubst %.cpp,%.o,$(patsubst %.c,%.o,${SRCS})))
-OBJS = $(OBJX:$(CORE_DIR)/%.o=$(BUILD_DIR)/%.o)
+OBJS = \
+	$(patsubst $(CORE_DIR)/%.o, $(BUILD_DIR)/%.o, \
+	 $(patsubst %.S, %.o, \
+	  $(patsubst %.cpp, %.o, \
+	   $(patsubst %.c, %.o, \
+	    ${SRCS}))))
+
+### Verbosity control. Use 'make V=1' to get verbose builds.
+ifeq ($(V),1)
+	TRACE_CC  =
+	TRACE_C++ =
+	TRACE_LD  =
+	TRACE_AR  =
+	TRACE_AS  =
+	Q=
+else
+	TRACE_CC  = @echo "  CC       " $<
+	TRACE_C++ = @echo "  C++      " $<
+	TRACE_LD  = @echo "  LD       " $@
+	TRACE_AR  = @echo "  AR       " $@
+	TRACE_AS  = @echo "  AS       " $<
+	Q=@
+endif
 
 # Compilation options
 CMODEL = -mcmodel=large
@@ -196,10 +195,14 @@ clean :
 	@rm -rf $(BUILD_DIR)/*
 
 connect:
-	@cd $$(dirname $$(which ICEman)); ./ICEman --device 0
+	cd $$(dirname $$(which ICEman)); \
+		./ICEman --reset-hold --port 1111 --target v3 --device 0 
 
 flash:
-	@SPI_burn --unlock --lock --image $(BUILD_DIR)/$(PROG).bin 
+	SPI_burn --unlock --lock --image $(BUILD_DIR)/$(PROG).bin 
+
+run:
+	$(CROSS_COMPILE)gdb $(BUILD_DIR)/$(PROG).elf
 
 # Automatic dependency generation
 ifneq ($(MAKECMDGOALS),clean)
@@ -207,4 +210,4 @@ ifneq ($(MAKECMDGOALS),clean)
 endif
 
 # http://www.gnu.org/software/make/manual/make.html#Phony-Targets
-.PHONY: all clean connect flash
+.PHONY: all clean connect flash run
