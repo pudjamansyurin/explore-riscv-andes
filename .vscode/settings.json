@@ -6,6 +6,8 @@
         "serial.h": "c",
         "string.h": "c",
         "adp_gpio.h": "c",
-        "terminal.h": "c"
+        "terminal.h": "c",
+        "spi.h": "c",
+        "driver_spi.h": "c"
     }
 }

@@ -59,7 +59,6 @@ CORE_DIR = src
 # The header paths
 INCS = \
 	-I$(CORE_DIR) \
-	-I$(CORE_DIR)/nds-adp-gpio \
 	-I$(CORE_DIR)/nds-amsi \
 	-I$(CORE_DIR)/nds-amsi/bsp \
 	-I$(CORE_DIR)/nds-amsi/bsp/$(PLATFORM) \
@@ -67,9 +66,11 @@ INCS = \
 	-I$(CORE_DIR)/nds-amsi/driver/include \
 	-I$(CORE_DIR)/nds-amsi/driver/v3/$(PLATFORM) \
 	-I$(CORE_DIR)/nds-amsi/driver/v3/$(PLATFORM)/config \
+	-I$(CORE_DIR)/nds-adp-gpio \
 	-I$(CORE_DIR)/nds-terminal \
 	-I$(CORE_DIR)/nds-terminal/tinysh \
 	-I$(CORE_DIR)/nds-terminal/nds-serial \
+	-I$(CORE_DIR)/spi-master/ \
 
 # The source files
 SRCS = \
@@ -92,6 +93,7 @@ SRCS = \
 	$(CORE_DIR)/nds-terminal/tinysh/tinysh.c \
 	$(CORE_DIR)/nds-terminal/nds-serial/serial.c \
 	$(CORE_DIR)/nds-terminal/nds-serial/retarget.c \
+	$(CORE_DIR)/spi-master/spi.c \
 	$(CORE_DIR)/main.c \
 
 # The linker script

@@ -6,7 +6,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/Debug/Touch.elf",
             "args": [],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
