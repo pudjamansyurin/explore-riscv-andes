@@ -14,7 +14,6 @@
 /* Public macros ------------------------------------------------------------ */
 #define TX_LEN			18
 #define RX_LEN			16
-
 #define ARR_SZ(X)       (sizeof(X)/sizeof(X[0]))
 
 #endif /* MAIN_H_ */

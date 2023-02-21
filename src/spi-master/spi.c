@@ -8,6 +8,9 @@
 #include "spi.h"
 #include <string.h>
 
+/* External symbols --------------------------------------------------------- */
+extern void error_handler(void);
+
 /* Private variables -------------------------------------------------------- */
 static volatile uint8_t u8_xferDone;
 static NDS_DRIVER_SPI* hspi;
@@ -21,8 +24,9 @@ static void spi_callback(uint32_t event)
             u8_xferDone = 1;
             break;
 
+        case NDS_SPI_EVENT_MODE_FAULT:
         case NDS_SPI_EVENT_DATA_LOST:
-            while(1);
+            error_handler();
             break;
 
         default:
@@ -51,18 +55,13 @@ void spiMstr_init(NDS_DRIVER_SPI* p_spi, uint32_t u32_speed)
     hspi->Control(NDS_SPI_MODE_MASTER 
                     | NDS_SPI_CPOL0_CPHA0
                     | NDS_SPI_MSB_LSB
-                    | NDS_SPI_DATA_BITS(8), 
+                    | NDS_SPI_SS_MASTER_HW_OUTPUT
+                    | NDS_SPI_DATA_BITS(16), 
                     u32_speed);
 }
 
 void spiMstr_send(const void* p_buf, uint32_t u32_cnt)
 {
-    // uint8_t u8_buf[2+u32_cnt];
-
-    // u8_buf[0] = 0x55;
-    // u8_buf[1] = 0x55;
-    // memcpy(&u8_buf[2], p_buf, u32_cnt);
-
     hspi->Send(p_buf, u32_cnt);
     wait_complete();
 }

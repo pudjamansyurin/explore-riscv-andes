@@ -38,7 +38,7 @@ static int16_t s16_rxBuf[TX_LEN * RX_LEN];
 /* Private function declaration --------------------------------------------- */
 static void gpio_callback(uint32_t u32_pin);
 static void fill_buffer(int16_t* s16p_buf, int16_t s16_val, uint32_t u32_cnt);
-static void error_handler(void);
+void error_handler(void);
 
 /* Public function definitions ---------------------------------------------= */
 int main(void)
@@ -48,7 +48,7 @@ int main(void)
     adp_pinInit(NDS_GPIO_EVENT_PIN8, NDS_GPIO_DIR_INPUT);
 
     // Initialize SPI
-    spiMstr_init(&Driver_SPI1, 1*MHZ);
+    spiMstr_init(&Driver_SPI1, 500*KHZ);
 
     // Initialize terminal
     term_init(&Driver_USART1, 38400, NULL, NULL);
@@ -62,26 +62,27 @@ int main(void)
 
             u8_cntr++;
             fill_buffer(s16_txBuf, u8_cntr, ARR_SZ(s16_txBuf));
-            spiMstr_send(s16_txBuf, sizeof(s16_txBuf));
+            spiMstr_send(s16_txBuf, ARR_SZ(s16_txBuf));
         }
         else if (SPI_STATE_TX_DONE == SPI_State) 
         {
             SPI_State = SPI_STATE_NONE;
-            spiMstr_receive(s16_rxBuf, sizeof(s16_rxBuf));
+            spiMstr_receive(s16_rxBuf, ARR_SZ(s16_rxBuf));
 
             // compare result
-            if (0 == memcmp(s16_txBuf, s16_rxBuf, sizeof(s16_rxBuf)))
+            for (uint32_t u32_i = 0; u32_i < ARR_SZ(s16_rxBuf); u32_i++)
             {
-                printf("u8_cntr=%d\r\n", u8_cntr);
-                adp_7segWrite(-1, u8_cntr);
+                if (s16_txBuf[u32_i] != s16_rxBuf[u32_i])
+                {
+                    error_handler();
+                }
             }
-            else 
-            {
-                error_handler();
-            }
+
+            printf("u8_cntr=%d\r\n", u8_cntr);
+            adp_7segWrite(-1, u8_cntr);
         }
 
-        // delay(5);
+        delay(1);
     }
 
     return 0;
@@ -123,7 +124,7 @@ static void fill_buffer(int16_t* s16p_buf, int16_t s16_val, uint32_t u32_cnt)
     }
 }
 
-static void error_handler(void)
+void error_handler(void)
 {
     adp_7segWrite(-1, 99);
     while(1) {};
