@@ -48,7 +48,7 @@ int main(void)
     adp_pinInit(NDS_GPIO_EVENT_PIN8, NDS_GPIO_DIR_INPUT);
 
     // Initialize SPI
-    spiMstr_init(&Driver_SPI1, 500*KHZ);
+    spiMstr_init(&Driver_SPI1, 1.5*MHZ);
 
     // Initialize terminal
     term_init(&Driver_USART1, 38400, NULL, NULL);
@@ -56,28 +56,15 @@ int main(void)
     // Infinite loop
     while(1)
     {
-        if (SPI_STATE_RX_DONE == SPI_State)
+        if (SPI_STATE_RX_DONE == SPI_State) 
         {
-            SPI_State = SPI_STATE_TX;
-
-            u8_cntr++;
-            fill_buffer(s16_txBuf, u8_cntr, ARR_SZ(s16_txBuf));
-            spiMstr_send(s16_txBuf, ARR_SZ(s16_txBuf));
-        }
-        else if (SPI_STATE_TX_DONE == SPI_State) 
-        {
-            SPI_State = SPI_STATE_NONE;
+            SPI_State = SPI_STATE_RX;
             spiMstr_receive(s16_rxBuf, ARR_SZ(s16_rxBuf));
 
-            // compare result
-            for (uint32_t u32_i = 0; u32_i < ARR_SZ(s16_rxBuf); u32_i++)
-            {
-                if (s16_txBuf[u32_i] != s16_rxBuf[u32_i])
-                {
-                    error_handler();
-                }
-            }
+            delay(1);
+            spiMstr_transmit(s16_rxBuf, ARR_SZ(s16_rxBuf));
 
+            u8_cntr++;
             printf("u8_cntr=%d\r\n", u8_cntr);
             adp_7segWrite(-1, u8_cntr);
         }
@@ -97,7 +84,7 @@ static void gpio_callback(uint32_t u32_pin)
             u8_cntr = 0;
             break;
 
-        case NDS_GPIO_EVENT_PIN1:
+        case NDS_GPIO_EVENT_PIN3:
             if (SPI_STATE_NONE == SPI_State)
             {
                 SPI_State = SPI_STATE_RX_DONE;
@@ -105,9 +92,9 @@ static void gpio_callback(uint32_t u32_pin)
             break;
 
         case NDS_GPIO_EVENT_PIN8:
-            if (SPI_STATE_TX == SPI_State)
+            if (SPI_STATE_RX == SPI_State)
             {
-                SPI_State = SPI_STATE_TX_DONE;
+                SPI_State = SPI_STATE_RX_DONE;
             }
             break;
 
